@@ -1,0 +1,82 @@
+<apex:page controller="DeviceController" lightningStylesheets="true">
+
+<style>
+debug {
+    font-family: SFS, Arial, sans-serif;
+    color: red;
+}
+</style>
+  
+  <apex:outputPanel id="devicePanel">
+  <apex:pageBlock title="Approved / Active Devices" id="block1">
+   <apex:form >
+    <apex:pageBlockTable value="{!device}" var="a">
+      <apex:column headerValue="Action">
+          <!--apex:commandlink value="Revoke" action="{!revoke}" rendered="{!(a.deviceType != 'Desktop' && a.status = 'Active')}"-->
+          <apex:commandlink value="Revoke" action="{!revoke}" rendered="{!IF(ISNULL(a.deviceNativeUid), false , true)}">             
+          <apex:param name="revokeId" value="{!a.Id}" assignTo="{!targetId}"/>
+          </apex:commandlink>
+          <apex:commandlink value="Disapprove" action="{!revoke}" rendered="{!IF(ISNULL(a.deviceNativeUid), true , false)}">
+              <apex:param name="revokeId" value="{!a.Id}" assignTo="{!targetId}"/>
+          </apex:commandLink>
+      </apex:column>      
+      <apex:column value="{!a.Id}" headerValue="Device ID"/>
+      <apex:column value="{!a.userName}" headerValue="User Name"/>
+      <apex:column value="{!a.userUsername}" headerValue="User Username"/>
+      <apex:column value="{!a.deviceType}" headerValue="Device Type"/>
+      <apex:column value="{!a.platformType}" headerValue="Platform Type"/>
+      <apex:column value="{!a.browserType}" headerValue="Browser Type"/>
+      <apex:column value="{!a.status}" headerValue="Status"/>
+      <apex:column value="{!a.UserLastSeen}" headerValue="Last Seen"/>
+      <apex:column value="{!a.deviceNativeUid}" headerValue="Device Native UID"/>
+    </apex:pageBlockTable>
+   </apex:form>
+  </apex:pageBlock>
+  </apex:outputPanel>
+  
+   <apex:outputPanel id="devicePendingPanel">
+   <apex:pageBlock title="Devices Requring Approval" id="block2">
+   <apex:form >
+    <apex:pageBlockTable value="{!adevice}" var="b">
+      <apex:column headerValue="Action">
+         <apex:commandLink value="Approve" action="{!approve}" reRender="devicePendingPanel,devicePanel">
+              <apex:Param name="approveId" value="{!b.Id}" assignTo="{!targetId}"/>
+         </apex:commandLink>
+      </apex:column>    
+      <apex:column value="{!b.Id}" headerValue="Device ID"/>
+      <apex:column value="{!b.userName}" headerValue="User Name"/>
+      <apex:column value="{!b.userUsername}" headerValue="User Username"/>
+      <apex:column value="{!b.deviceType}" headerValue="Device Type"/>
+      <apex:column value="{!b.platformType}" headerValue="Platform Type"/>
+      <apex:column value="{!b.browserType}" headerValue="Browser Type"/>
+      <apex:column value="{!b.status}" headerValue="Status"/>
+      <apex:column value="{!b.UserLastSeen}" headerValue="Last Seen"/>
+      <apex:column value="{!b.deviceNativeUid}" headerValue="Device Native UID"/>
+    </apex:pageBlockTable>
+   </apex:form>
+  </apex:pageBlock>
+  </apex:outputPanel>
+    
+  <div align="center">
+  <apex:pageBlock id="block3">
+    <table width="100%">
+        <tr>
+            <td>
+                <analytics:reportChart reportId="00OB0000002d1hvMAA">
+                </analytics:reportChart>          
+            </td>
+            <td>
+                <analytics:reportChart reportId="00OB0000002d1i0MAA">
+                </analytics:reportChart>
+            </td>
+        </tr>
+    </table>
+    </apex:pageBlock>
+    </div>
+  
+  <div class="debug">
+      <apex:dynamicComponent componentValue="{!theDebugPanel}"/>
+  </div>
+  
+
+</apex:page>

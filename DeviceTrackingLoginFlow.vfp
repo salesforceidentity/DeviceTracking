@@ -1,0 +1,59 @@
+<apex:page id="Registration" showHeader="false" controller="DeviceTrackingLoginFlowController" title="{!$Label.site.register}" lightningStylesheets="true">
+<style>  
+    body {
+        height: 100%;
+        margin: 0;
+        background-image: url("https://identitycms.herokuapp.com/mountains.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        /* width: 500px; */
+        clear: both;
+        margin: 80px 150px;
+        vertical-align: middle;
+    }
+    
+    .bPageBlock .pbBody .dataCol {
+        border:0px;
+    }
+    .bPageBlock .pbBody .labelCol {
+        border:0px;
+    }
+    
+    h2 { color:#069;}
+</style>
+   
+    <br/><br/><br/><br/>
+    <apex:outputText value="This device is not approved to access Salesforce. Please contact your administrator for more information." rendered="{!isApprovalPending == true}" style="color:white;font-size:18px;"/><br/><br/>
+    <apex:outputText value="Congratulation!! This device has been approved by your Salesforce administrator" rendered="{!isApprovalPending == false}" style="color:white;font-size:18px;"/><br/><br/>
+    <apex:pageBlock >
+    <apex:pageBlockSection columns="2">
+        <apex:outputLabel >Platform</apex:outputLabel>
+        <apex:outputLabel value="{!device.platformType}"/>
+        
+        <apex:outputLabel >Browser Type</apex:outputLabel>
+        <apex:outputLabel value="{!device.browserType}"/>
+        
+        <apex:outputLabel >Login History ID&nbsp;&nbsp;&nbsp;</apex:outputLabel>
+        <apex:outputLabel value="{!device.loginHistoryId}"/>
+        
+        <apex:outputLabel >Device ID</apex:outputLabel>
+        <apex:outputLabel value="{!device.id}"/>
+        
+        <apex:outputLabel >Device Type</apex:outputLabel>
+        <apex:outputLabel value="{!device.DeviceType}"/>
+        
+        <apex:outputLabel >Device Status</apex:outputLabel>
+        <apex:outputLabel value="{!device.status}"/>
+    </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+    <br/><br/>
+    
+    <div align="right">
+    <apex:form >
+        <apex:commandButton action="{!finishFlow}" value="Next" id="next" rendered="{!isApprovalPending == false}"/>
+        <apex:commandButton action="{!finishFlow}" value="Back" id="back" rendered="{!isApprovalPending == true}"/>
+    </apex:form>
+    </div>
+</apex:page>
