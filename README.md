@@ -1,7 +1,8 @@
 # DeviceTracking
 
 1. Contact Salesforce and ask to enable the device management featrue. 
-2. TBD
+2. Download and create the apex controllers and visualforce pages in your org
+3. TBD
 
 
 
